@@ -1,255 +1,78 @@
-import React, { useState } from 'react';
+import { useState } from "react";
+import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
 export function App() {
-  const [formData, setFormData] = useState({
-    nome: '',
-    email: '',
-    telefone: '',
-    cpf: '',
-    dataNascimento: '',
-    sexo: '',
-    cep: '',
-    endereco: '',
-    complemento: '',
-    cidade: '',
-    uf: '',
-    cargo: '',
-    departamento: '',
-    unidadeSenai: '',
-  });
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // Novo estado para controlar a visibilidade da senha
+  const [error, setError] = useState("");
 
-  const handleNumericInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.target.value = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleAlphabeticInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.target.value = e.target.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, ''); // Remove non-alphabetic characters
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleClear = () => {
-    setFormData({
-      nome: '',
-      email: '',
-      telefone: '',
-      cpf: '',
-      dataNascimento: '',
-      sexo: '',
-      cep: '',
-      endereco: '',
-      complemento: '',
-      cidade: '',
-      uf: '',
-      cargo: '',
-      departamento: '',
-      unidadeSenai: '',
-    });
+  const handleLogin = () => {
+    if (username === "" || password === "") {
+      setError("Usuário e senha são obrigatórios!");
+      return;
+    }
+    setError(""); // Limpa a mensagem de erro
+    console.log("Usuário:", username);
+    console.log("Senha:", password);
   };
 
   return (
-    <div
-      className="min-h-screen flex flex-col items-center w-full h-full bg-cover bg-center"
-      style={{ fontFamily: "'Poppins', sans-serif" }}
+    <div 
+      className="min-h-screen flex flex-col items-center w-full h-full bg-cover bg-center" 
+      style={{ backgroundImage: "url('/senai2.jpg')", fontFamily: "'Poppins', sans-serif" }}
     >
       <header className="w-full py-7 px-7" style={{ backgroundColor: "#1a88db" }}>
         <nav className="flex justify-between items-center">
-          <div className="text-5xl font-bold text-white ml-8">S E N A I</div>
+          <div className="text-5xl font-bold text-white ml-8"> 
+            S E N A I
+          </div>
         </nav>
       </header>
 
-      {/* Formulário de Cadastro */}
-      <div className="container mx-auto mt-10 bg-gray-200 p-10 rounded-xl shadow-lg">
-        <h1 className="text-4xl font-bold mb-8">Cadastrar Usuário</h1>
-
-        <form className="grid grid-cols-2 gap-8">
-          {/* Informações pessoais */}
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Informações Pessoais</h2>
-            <div className="mb-4">
-              <label>Nome Completo:</label>
-              <input
-                className="w-full p-2 border rounded"
-                type="text"
-                name="nome"
-                value={formData.nome}
-                onInput={handleAlphabeticInput}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-4">
-              <label>E-mail Pessoal:</label>
-              <input
-                className="w-full p-2 border rounded"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-4">
-              <label>Telefone Celular:</label>
-              <input
-                className="w-full p-2 border rounded"
-                type="tel"
-                name="telefone"
-                value={formData.telefone}
-                onInput={handleNumericInput}
-                onChange={handleChange}
-                maxLength={11}
-              />
-            </div>
-            <div className="mb-4">
-              <label>CPF:</label>
-              <input
-                className="w-full p-2 border rounded"
-                type="text"
-                name="cpf"
-                value={formData.cpf}
-                onInput={handleNumericInput}
-                onChange={handleChange}
-                maxLength={11}
-              />
-            </div>
-            <div className="mb-4">
-              <label>Data de Nascimento:</label>
-              <input
-                className="w-full p-2 border rounded"
-                type="date"
-                name="dataNascimento"
-                value={formData.dataNascimento}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-4">
-              <label>Sexo:</label>
-              <select
-                className="w-full p-2 border rounded"
-                name="sexo"
-                value={formData.sexo}
-                onChange={handleChange}
-              >
-                <option value="">Selecione</option>
-                <option value="masculino">Masculino</option>
-                <option value="feminino">Feminino</option>
-                <option value="outro">Outro</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Informações de Endereço */}
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Informações de Endereço</h2>
-            <div className="mb-4">
-              <label>CEP:</label>
-              <input
-                className="w-full p-2 border rounded"
-                type="text"
-                name="cep"
-                value={formData.cep}
-                onInput={handleNumericInput}
-                onChange={handleChange}
-                maxLength={8}
-              />
-            </div>
-            <div className="mb-4">
-              <label>Endereço:</label>
-              <input
-                className="w-full p-2 border rounded"
-                type="text"
-                name="endereco"
-                value={formData.endereco}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-4">
-              <label>Complemento:</label>
-              <input
-                className="w-full p-2 border rounded"
-                type="text"
-                name="complemento"
-                value={formData.complemento}
-                onInput={handleAlphabeticInput}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-4">
-              <label>Cidade:</label>
-              <input
-                className="w-full p-2 border rounded"
-                type="text"
-                name="cidade"
-                value={formData.cidade}
-                onInput={handleAlphabeticInput}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-4">
-              <label>UF:</label>
-              <input
-                className="w-full p-2 border rounded"
-                type="text"
-                name="uf"
-                value={formData.uf}
-                onInput={handleAlphabeticInput}
-                onChange={handleChange}
-                maxLength={2}
-              />
-            </div>
-          </div>
-
-          {/* Informações Profissionais */}
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Informações Profissionais</h2>
-            <div className="mb-4">
-              <label>Cargo:</label>
-              <input
-                className="w-full p-2 border rounded"
-                type="text"
-                name="cargo"
-                value={formData.cargo}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-4">
-              <label>Departamento:</label>
-              <input
-                className="w-full p-2 border rounded"
-                type="text"
-                name="departamento"
-                value={formData.departamento}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-4">
-              <label>Unidade SENAI:</label>
-              <input
-                className="w-full p-2 border rounded"
-                type="text"
-                name="unidadeSenai"
-                value={formData.unidadeSenai}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-        </form>
-
-        <div className="flex justify-end mt-6 space-x-4">
+      <div className="container mx-auto max-w-md p-16 bg-white rounded-xl border-4 shadow-xl opacity-95 shadow-blue-400 mt-24 animate-jump relative">
+        <div className="mb-6 text-center">
+          <h3 className="text-4xl font-bold text-blue-600 mb-4" style={{ color: "#1a88db" }}>L o g i n</h3>
+        </div>
+        <div className="mb-4 relative">
+          <label className="block mb-2 font-semibold text-sm">Digite o seu Usuário:</label>
+          <FaUser className="absolute left-3 top-12 text-gray-400" />
+          <input
+            className="p-3 pl-10 outline-none focus:ring-2 focus:ring-blue-300 transition-all w-full rounded bg-gray-100 mb-4"
+            type="text"
+            placeholder="Usuário"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div className="mb-6 relative">
+          <label className="block mb-2 font-semibold text-sm">Digite a sua Senha:</label>
+          <FaLock className="absolute left-3 top-12 text-gray-400 focus-within:text-gray-600" />
+          <input
+            className="p-3 pl-10 outline-none focus:ring-2 focus:ring-blue-300 transition-all w-full rounded bg-gray-100 mb-4"
+            type={showPassword ? "text" : "password"} // Alterna o tipo do campo
+            placeholder="Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {/* Botão de olho para mostrar ou esconder a senha */}
           <button
-            className="bg-gray-500 text-white py-2 px-4 rounded"
-            onClick={handleClear}
             type="button"
+            className="absolute right-3 top-12 text-gray-600 focus:outline-none"
+            onClick={() => setShowPassword(!showPassword)} // Alterna a visibilidade da senha
           >
-            Limpar
-          </button>
-          <button className="bg-blue-500 text-white py-2 px-4 rounded" type="submit">
-            Cadastrar Usuário
+            {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Ícone de olho aberto/fechado */}
           </button>
         </div>
+
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>} {/* Exibe a mensagem de erro */}
+
+        <button
+          className="w-full hover:bg-[#166bb7] transition-all outline-none bg-[#1a88db] py-3 font-semibold text-white uppercase rounded hover:white transition duration-500 ease-in-out hover:bg-[#166bb7] transform hover:-translate-y-1 hover:scale-110"
+          onClick={handleLogin}
+        >
+          Entrar
+        </button>
       </div>
     </div>
   );
